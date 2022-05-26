@@ -1,0 +1,38 @@
+{{>layouts/header}}
+<table class="table">
+    <thead>
+    <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Title</th>
+        <th scope="col">Content</th>
+
+    </tr>
+    </thead>
+    <tbody>
+
+<!--
+모델에 등록된 데이터를 사용할 때는 #을 사용하고 다 사용하고 닫아야한다.
+-->
+    {{#article}}
+    <tr>
+        <th>{{id}}</th>
+        <td>{{title}}</td>
+        <td>{{content}}</td>
+    </tr>
+    {{/article}}
+    </tbody>
+</table>
+    <a href="/articles/{{article.id}}/edit" class="btn btn-primary">Edit</a>
+<!--  모델에 등록된 article의 id를 가져온다.  (#의 유무 차이)  -->
+
+<!--
+생성 POST, 조회 GET, 수정 UPDATE, 삭제 DELETE 이지만 form 에서는 GET과 POST만 지원하므로 GET 방식으로 delete 구현
+추후 JS으로 각각 구현 예정
+-->
+    <a href="/articles/{{article.id}}/delete" class="btn btn-danger">Delete</a>
+    <a href="/articles" class="btn btn-primary">Go to Articles List</a>
+
+<!--댓글을 추가하기 위해 아래와 comments/_comments 추가-->
+{{>comments/_comments}}
+
+{{>layouts/footer}}

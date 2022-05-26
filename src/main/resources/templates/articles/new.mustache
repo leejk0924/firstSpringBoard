@@ -1,0 +1,30 @@
+{{>layouts/header}}
+<!--
+    어디로 보낼지와 어떻게 보낼지의 내용은 form 태그에 적어줘야한다.
+    action 에 어디로 보낼지 경로를 적고, method 에 어떻게 보낼지 적는다.
+ -->
+<form class="container" action="/articles/create" method ="post">
+
+    <div class="mb-3">
+        <label class="form-label">제목</label>
+        <input type="text" class="form-control" name="title">
+    </div>
+    <div class="mb-3">
+        <label class="form-label">내용</label>
+        <textarea class="form-control" rows="3" name="content"></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+
+    <button>
+        <a href="/articles">back</a>
+    </button>
+</form>
+
+
+
+<!--
+입력받은 정보들에 name 을 이용해서 이름을 입력해서 구분해줘야한다.
+html input 의 name 값과 DTO 객체의 필드명이 동일한 경우, 자동으로 매핑된다.
+자세한 내용을 알기 위해서는 @ModelAttribute 참고
+-->
+{{>layouts/footer}}

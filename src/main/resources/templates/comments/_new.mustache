@@ -1,0 +1,62 @@
+<div class="card m-2" id="comments-new">
+    <div class="card-body">
+        <!-- 댓글 작성 폼 -->
+        <form>
+            <!-- 닉네임 입력 -->
+            <div class="mb-3">
+                <label class="form-label">닉네임</label>
+                <input type="text" class="form-control form-control-sm" id="new-comment-nickname">
+            </div>
+            <!-- 댓글 본문 입력 -->
+            <div class="mb-3">
+                <label class="form-label">댓글 내용</label>
+                <textarea type="text" class="form-control form-control-sm" rows="3" id="new-comment-body"></textarea>
+            </div>
+            <!-- 히든 인풋 -->
+            <!-- 보이진 않지만 댓글은 게시글에 포함된것이다 보니 id 값을 가지고 있어야 한다.-->
+            {{#article}}
+                <input type="hidden" id="new-comment-article-id" value="{{id}}">
+            {{/article}}
+            <!-- 전송 버튼 -->
+            <button type="button" class="btn btn-outline-primary btn-sm" id="comment-create-btn">댓글 작성</button>
+        </form>
+    </div>
+</div>
+
+<script>
+    {
+        // 댓글 생성 버튼 변수화(id 가 comment-create-btn 인 대상)
+        const commentCreateBtn = document.querySelector("#comment-create-btn");      // 아이디값은 #으로 가져온다.
+
+        // 버튼 클릭 이벤트 감지 - commentCreateBtn 버튼에서 이벤트 발생을 감지하는 addEventListener 메서드를 통해 이벤트 감지
+        // click 이 발생한 경우 function(){} 을 수행한다.
+        commentCreateBtn.addEventListener("click", function() {
+            // 새 댓글 객체 생성
+            const comment = {
+                nickname: document.querySelector("#new-comment-nickname").value,
+                body: document.querySelector("#new-comment-body").value,
+                article_id: document.querySelector("#new-comment-article-id").value
+            };
+            // 댓글 객체 출력
+            console.log(comment);
+
+            // fatch()   - Talend API 요청을 JavaScript 로 보내준다.
+            const url = `/api/articles/${comment.article_id}/comments`;
+            fetch(url , {
+                method:"POST",
+                body: JSON.stringify(comment),
+                headers: {
+                    "Content-Type": "application/json"
+                }
+                // POST 요청
+                // comment JS 객체를 JSON 으로 변경하여 보냄
+            }).then(response => {
+                // http 응답 코드에 따른 메시지 출력
+                 const msg = (response.ok) ? "댓글이 등록되었습니다." : "댓글 등록 실패!";
+                 alert(msg);
+                 // 현재 페이지 새로고침
+                window.location.reload();
+            });
+        });
+    }
+</script>
